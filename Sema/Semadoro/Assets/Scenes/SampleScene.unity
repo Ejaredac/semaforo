@@ -1088,6 +1088,8 @@ MonoBehaviour:
   estadoActual: {fileID: 0}
   estadoSiguiente: {fileID: 0}
   blnPrendidos: 1
+  txtCont: {fileID: 174587713}
+  fltTimer: 1
 --- !u!1 &942167485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,6 +1442,8 @@ MonoBehaviour:
   estadoActual: {fileID: 0}
   estadoSiguiente: {fileID: 0}
   blnPrendidos: 1
+  txtCont: {fileID: 174587713}
+  fltTimer: 1
 --- !u!1 &1315473570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1503,8 @@ MonoBehaviour:
   estadoActual: {fileID: 0}
   estadoSiguiente: {fileID: 0}
   blnPrendidos: 1
+  txtCont: {fileID: 174587713}
+  fltTimer: 1
 --- !u!1 &1397666644 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3905878030907649817, guid: a6b6b1ef80a3e044bb0aa17bb0627431, type: 3}
@@ -1528,6 +1534,8 @@ MonoBehaviour:
   estadoActual: {fileID: 0}
   estadoSiguiente: {fileID: 0}
   blnPrendidos: 1
+  txtCont: {fileID: 174587713}
+  fltTimer: 1
 --- !u!1001 &1421224353
 PrefabInstance:
   m_ObjectHideFlags: 0

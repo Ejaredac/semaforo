@@ -17,6 +17,8 @@ public class SemaforoScript : MonoBehaviour
     public StateSemaforo estadoActual;
     public StateSemaforo estadoSiguiente;
     public bool blnPrendidos = true;
+    public TMPro.TextMeshPro txtCont;
+    public float fltTimer = 1f;
     private void Update()
     {
 
@@ -35,12 +37,14 @@ public class SemaforoScript : MonoBehaviour
     IEnumerator CambioEstado()
     {
         blnPrendidos = false;
-        yield return new WaitForSeconds(1);
         blnPrendidos = true;
         //semaforoespejo.estadoActual = estadoActual;
         //Debug.Log("Iniciando");
         while (blnPrendidos)
         {
+
+            yield return new WaitForSeconds(0.5f);
+
             //Debug.Log("Entrando al bucle");
             if (estadoActual.Equals(estadoApagado))
             {
@@ -50,99 +54,192 @@ public class SemaforoScript : MonoBehaviour
             }
             else if (estadoActual.Equals(estadoVerde))
             {
-                //siguienteSemaforo.estadoActual = siguienteSemaforo.estadoRojo;
                 estadoRojo.blnBanderaCambio = true;
-                //Debug.Log("Estado verde");
-                estadoSiguiente = estadoVerdePar;
-                esteMaterial = estadoVerde.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(15);
-                esteMaterial = estadoApagado.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                estadoActual = estadoSiguiente;
+                siguienteSemaforo.estadoActual = siguienteSemaforo.estadoRojo;
+
+                if (fltTimer < 1)
+                {
+                    fltTimer = 1;
+                    esterender.material = estadoVerde.material;
+                    
+                        txtCont.text = ((int)fltTimer).ToString();
+                        txtCont.color = Color.green;
+                    
+
+                }
+                else if (fltTimer < 15 && fltTimer >= 1)
+                {
+                    esterender.material = estadoVerde.material;
+                   
+                        txtCont.text = ((int)fltTimer).ToString();
+                        txtCont.color = Color.green;
+                    
+                }
+                else if (fltTimer == 15)
+                {
+                    esterender.material = estadoVerde.material;
+                   
+                        txtCont.text = ((int)fltTimer).ToString();
+                        txtCont.color = Color.green;
+                    
+                }
+                else if (fltTimer >= 15.5f)
+                {
+                    fltTimer = 0.5f;
+                    esterender.material = estadoApagado.material;
+                    
+                    
+                        txtCont.color = Color.gray;
+                        txtCont.text = "15";
+                    
+                    estadoActual = estadoVerdePar;
+                }
             }
             else if (estadoActual.Equals(estadoVerdePar))
             {
-               // Debug.Log("Estado verde parpadeando");
-                estadoSiguiente = estadoAmarillo;
-                yield return new WaitForSeconds(0.5f);
-                esteMaterial = estadoVerdePar.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                esteMaterial = estadoApagado.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                esteMaterial = estadoVerdePar.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                esteMaterial = estadoApagado.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                esteMaterial = estadoVerdePar.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                esteMaterial = estadoApagado.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
-                estadoActual = estadoSiguiente;
+                if (fltTimer % 1 == 0.5f)
+                {
+                    esterender.material = estadoApagado.material;
+                    
+                        txtCont.color = Color.gray;
+                    
+                }
+                else if (fltTimer % 1 == 0)
+                {
+                    esterender.material = estadoVerdePar.material;
+                    
+                        txtCont.color = Color.green;
+                    
+                }
+
+
+                if (fltTimer < 3 && fltTimer >= 1)
+                {
+                    
+                        txtCont.text = ((int)fltTimer).ToString();
+                    
+                }
+                else if (fltTimer < 1)
+                {
+                    
+                        txtCont.text = "1"; 
+                    
+                }
+                else if (fltTimer == 3)
+                {
+                    
+                        txtCont.text = ((int)fltTimer).ToString(); 
+                    
+                }
+                else if (fltTimer >= 3.5f)
+                {
+                    fltTimer = 0.5f;
+                    
+                        txtCont.text = "3";
+                        txtCont.color = Color.gray; 
+                    
+                    esterender.material = estadoApagado.material;
+                    estadoActual = estadoAmarillo;
+                }
+
+
             }
             else if (estadoActual.Equals(estadoAmarillo))
             {
-                //Debug.Log("Estado amarillo");
-                estadoSiguiente = estadoRojo;
-                esteMaterial = estadoAmarillo.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(2);
-                esteMaterial = estadoApagado.material;
-                esterender.material = esteMaterial;
-                yield return new WaitForSeconds(0.5f);
 
-                estadoActual = estadoSiguiente;
+                if (fltTimer < 3 && fltTimer >= 1)
+                {
+                    esterender.material = estadoAmarillo.material;
+                    txtCont.text = ((int)fltTimer).ToString();
+                    txtCont.color = Color.yellow;
+                }
+                else if (fltTimer < 1)
+                {
+                    txtCont.text = "1";
+                    esterender.material = estadoAmarillo.material;
+                }
+                else if (fltTimer == 3)
+                {
+                    esterender.material = estadoAmarillo.material;
+                    txtCont.text = ((int)fltTimer).ToString();
+                    txtCont.color = Color.yellow;
+                }
+                else if (fltTimer >= 3.5f)
+                {
+                    fltTimer = 0.5f;
+                    esterender.material = estadoApagado.material;
+                    txtCont.color = Color.gray;
+                    txtCont.text = "3";
+                    estadoActual = estadoRojo;
+                }
             }
             else if (estadoActual.Equals(estadoRojo) && estadoRojo.blnBanderaCambio)
             {
 
-
-                //Debug.Log("Estado Rojo");
-                esteMaterial = estadoRojo.material;
-                esterender.material = esteMaterial;
-                estadoSiguiente = estadoVerde;
-                yield return new WaitForSeconds(2);
-                siguienteSemaforo.estadoActual = siguienteSemaforo.estadoVerde;
-                estadoRojo.blnBanderaCambio = false;
-
-
-
-            }
-            else if (estadoActual.Equals(estadoRojo) && !estadoRojo.blnBanderaCambio) { /*yield return new WaitForSeconds(5f);*/ }
-            else
-            {
+                if (fltTimer < 2 && fltTimer >= 1)
+                {
+                    esterender.material = estadoRojo.material;
+                    txtCont.text = ((int)fltTimer).ToString();
+                    txtCont.color = Color.red;
+                }
+                else if (fltTimer < 1)
+                {
+                   
+                    txtCont.text = "1";
+                    esterender.material = estadoRojo.material;
+                }
+                else if (fltTimer == 2)
+                {
+                    esterender.material = estadoRojo.material;
+                    txtCont.text = ((int)fltTimer).ToString();
+                    txtCont.color = Color.red;
+                }
+                else if (fltTimer > 2.5f)
+                {
+                    esterender.material = estadoRojo.material;
+                    txtCont.text = "2";
+                    txtCont.color = Color.red;
+                    siguienteSemaforo.fltTimer = 0.5f;
+                    fltTimer = 0.5f;
+                    siguienteSemaforo.estadoActual = siguienteSemaforo.estadoVerde;
+                    estadoRojo.blnBanderaCambio = false;
+                }
                 
             }
-                yield return new WaitForSeconds(0.00000001f);
-              
+            else if (estadoActual.Equals(estadoRojo) && !estadoRojo.blnBanderaCambio)
+            {
+                esterender.material = estadoRojo.material;
+                fltTimer = 0.5f;
+            }
+            else
+            {
+
+            }
+            fltTimer += 0.5f;
         }
+        yield return new WaitForSeconds(1);
     }
 
     IEnumerator Preventivas()
     {
         blnPrendidos = false;
-        yield return new WaitForSeconds(1);
         blnPrendidos = true;
         //Debug.Log("Preventivas");
         while (blnPrendidos)
         {
-            
-            
+
+
             yield return new WaitForSeconds(0.5F);
             esteMaterial = estadoApagado.material;
             esterender.material = esteMaterial;
+            txtCont.color = Color.gray;
             yield return new WaitForSeconds(0.5F);
             esteMaterial = estadoAmarillo.material;
             esterender.material = esteMaterial;
+            txtCont.color = Color.yellow;
         }
 
+        yield return new WaitForSeconds(1);
     }
 
     public void ComenzarPreventivas()

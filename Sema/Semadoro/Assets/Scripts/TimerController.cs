@@ -9,7 +9,7 @@ public class TimerController : MonoBehaviour
     public SemaforoScript[] semaforos2;
     public TMPro.TextMeshPro m_TextMeshPro;
     public SemaforoScript semaforoActual;
-    public float m_Time = 0f;
+    public float m_Time = 1f;
     public float m_Duration = 1f;
     public bool m_Running = true;
     // Start is called before the first frame update
@@ -40,10 +40,12 @@ public class TimerController : MonoBehaviour
         StopAllCoroutines();
         foreach (SemaforoScript semaforo in semaforos1)
         {
+            semaforo.fltTimer = 1;
             semaforo.StopAllCoroutines();
         }
         foreach (SemaforoScript semaforo in semaforos2)
         {
+            semaforo.fltTimer = 1;
             semaforo.StopAllCoroutines();
         }
         m_Time = 0;
@@ -55,10 +57,12 @@ public class TimerController : MonoBehaviour
         StopAllCoroutines();
         foreach (SemaforoScript semaforo in semaforos1)
         {
+            semaforo.fltTimer = 1;
             semaforo.StopAllCoroutines();
         }
         foreach (SemaforoScript semaforo in semaforos2)
         {
+            semaforo.fltTimer = 1;
             semaforo.StopAllCoroutines();
         }
         StartCoroutine(Prevenntivos());
@@ -69,13 +73,15 @@ public class TimerController : MonoBehaviour
         StopAllCoroutines();
         foreach (SemaforoScript semaforo in semaforos1)
         {
+            semaforo.fltTimer = 1;
             semaforo.StopAllCoroutines();
         }
         foreach (SemaforoScript semaforo in semaforos2)
         {
+            semaforo.fltTimer = 1;
             semaforo.StopAllCoroutines();
         }
-        m_Time = 0;
+        m_Time = 1;
         m_TextMeshPro.text = "0";
 
         m_TextMeshPro.color = Color.gray;
@@ -84,17 +90,16 @@ public class TimerController : MonoBehaviour
 
     public IEnumerator ComenzarSemaforos()
     {
-        yield return new WaitForSeconds(1);
         m_Running = true;
         m_Time = 0f;
-        foreach (SemaforoScript semaforo in semaforos1)
+        foreach (SemaforoScript semaforo in semaforos2)
         {
             semaforo.blnPrendidos = true;
             semaforo.estadoActual = semaforo.estadoVerde;
         }
         //siguiente rojo
 
-        foreach (SemaforoScript semaforo in semaforos2)
+        foreach (SemaforoScript semaforo in semaforos1)
         {
             semaforo.blnPrendidos = true;
             semaforo.estadoActual = semaforo.estadoRojo;
@@ -116,67 +121,14 @@ public class TimerController : MonoBehaviour
         {
             item.Comenzar();
         }
-        while (m_Running)
-        {
-            foreach (SemaforoScript item in semaforos1)
-            {
-                if (item.estadoActual.Equals(item.estadoVerde))
-                {
-                    semaforoActual = item;
-                }
-            }
-            foreach (SemaforoScript item in semaforos2)
-            {
-                if (item.estadoActual.Equals(item.estadoVerde))
-                {
-                    semaforoActual = item;
-                }
-            }
-            int temp = (int)m_Time;
-            m_TextMeshPro.text = temp.ToString();
-            //Debug.Log(m_Time.ToString());
-            if (semaforoActual.estadoActual.Equals(semaforoActual.estadoVerde))
-            {
-                m_Duration = 16.0f;
-                m_TextMeshPro.color = Color.green;
-            }
-            else if (semaforoActual.estadoActual.Equals(semaforoActual.estadoVerdePar))
-            {
-                m_Duration = 4.0f;
-            }
-            else if (semaforoActual.estadoActual.Equals(semaforoActual.estadoAmarillo)) {
-                m_Duration = 3.0f;
-                m_TextMeshPro.color = Color.yellow;
-            }
-            else if (semaforoActual.estadoActual.Equals(semaforoActual.estadoRojo))
-            {
-                m_Duration = 2.0f;
-                m_TextMeshPro.color = Color.red;
-            }
-
-            m_Time += 0.5f;
-
-            if (m_Time%1==0.5f && semaforoActual.estadoActual.Equals(semaforoActual.estadoVerdePar))
-            {
-                m_TextMeshPro.color = Color.gray;
-            }
-            else if (m_Time % 1 == 0f && semaforoActual.estadoActual.Equals(semaforoActual.estadoVerdePar))
-            {
-                m_TextMeshPro.color = Color.green;
-            }
-            yield return new WaitForSeconds(0.5f);
-            if (m_Duration <= m_Time)
-            {
-                m_Time = 0;
-            }
-        }
+        
         //Debug.Log("Salio");
+        yield return new WaitForSeconds(1);
 
     }
     IEnumerator Prevenntivos()
     {
 
-        yield return new WaitForSeconds(1);
 
         foreach (SemaforoScript semaforo in semaforos1)
         {
@@ -206,11 +158,11 @@ public class TimerController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             m_Time += 0.5f;
         }
+        yield return new WaitForSeconds(1);
     }
 
     IEnumerator Apagar()
     {
-        yield return new WaitForSeconds(1);
 
         foreach (SemaforoScript item in semaforos1)
         {
@@ -225,5 +177,6 @@ public class TimerController : MonoBehaviour
             item.esterender.material = item.estadoApagado.material;
         }
         m_Running = false;
+        yield return new WaitForSeconds(1);
     }
 }
